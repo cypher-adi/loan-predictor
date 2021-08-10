@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+    <title align:center>Loan Prediction</title>
+    <meta charset="UTF-8">
+</head>
+
+<style>
+
+.login { 
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	margin: -150px 0 0 -150px;
+	width:400px;
+	height:400px;
+}
+
+.login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
+
+input { 
+	width: 100%; 
+	margin-bottom: 10px; 
+	background: rgba(0,0,0,0.3);
+	border: none;
+	outline: none;
+	padding: 10px;
+	font-size: 13px;
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 4px;
+	box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+	-webkit-transition: box-shadow .5s ease;
+	-moz-transition: box-shadow .5s ease;
+	-o-transition: box-shadow .5s ease;
+	-ms-transition: box-shadow .5s ease;
+	transition: box-shadow .5s ease;
+}
+input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2); }
+html, body {
+    margin: 0px;
+    padding: 0px;    
+}
+
+.carousel {
+    position: relative;
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.64);
+    margin-top: 26px;
+}
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-open:checked + .carousel-item {
+    position: static;
+    opacity: 100;
+}
+
+.carousel-item {
+    position: absolute;
+    opacity: 0;
+    -webkit-transition: opacity 0.6s ease-out;
+    transition: opacity 0.6s ease-out;
+}
+
+.carousel-item img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.carousel-control {
+    background: rgba(0, 0, 0, 0.28);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+    font-size: 40px;
+    height: 40px;
+    line-height: 35px;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+    cursor: pointer;
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    text-align: center;
+    width: 40px;
+    z-index: 10;
+}
+
+.carousel-control.prev {
+    left: 2%;
+}
+
+.carousel-control.next {
+    right: 2%;
+}
+
+.carousel-control:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: #aaaaaa;
+}
+
+#carousel-1:checked ~ .control-1,
+#carousel-2:checked ~ .control-2,
+#carousel-3:checked ~ .control-3 {
+    display: block;
+}
+
+.carousel-indicators {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 2%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+}
+
+.carousel-indicators li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.carousel-bullet {
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 35px;
+}
+
+.carousel-bullet:hover {
+    color: #aaaaaa;
+}
+
+#carousel-1:checked ~ .control-1 ~ .carousel-indicators li:nth-child(1) .carousel-bullet,
+#carousel-2:checked ~ .control-2 ~ .carousel-indicators li:nth-child(2) .carousel-bullet,
+#carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
+    color: #428bca;
+}
+
+#title {
+    width: 100%;
+    position: absolute;
+    padding: 0px;
+    margin: 0px auto;
+    text-align: center;
+    font-size: 27px;
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Open Sans', sans-serif;
+    z-index: 9999;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), -1px 0px 2px rgba(255, 255, 255, 0);
+}
+
+body { 
+	width: 100%;
+	height:100%;
+	font-family: 'Open Sans', sans-serif;
+	background: #092756;
+	color: #fff;
+	font-size: 18px;
+	text-align:center;
+	letter-spacing:1.2px;
+	background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,  #670d10 0%, #092756 100%);
+	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
+
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+float: left;
+width: 31.8%;
+padding: 10px;
+height: 350px; 
+}
+
+/* Clear floats after the columns */
+.row:after {
+content: "";
+display: table;
+clear: both;
+background-color: white;
+}
+
+h1
+{
+color=white;}
+</style>
+
+<body>
+<h1 style="color:#FFA500;font-size:56px;font-weight:bold;" align=center >Loan Approval System</h1>
+<br><br><br>
+<div class="container">
+  <div class="jumbotron">
+    <h2 align=left style="color:#FFA500;">Introduction</h1>
+    <p align=left>• Indian Financial sector has seen an tremendous growth in last decade,
+but this growth is not without any glitches.<br>
+• According to PWC and Deloitte, there is a dramatic increase in volume of
+bank loan frauds. It is the major concern<br>
+• Hence, techniques are necessary for early prediction of loan being non
+performing asset (NPA) or fraudulent.<br>
+• The data which is needed for loan analysis has to be built by considering
+features like loan amount, purpose, repayment pattern, employment etc.<br>
+• This data may not be structured, and needs continuous analysis<br>
+• Hence Big Data technology must be used for such analysis, to assist in
+efficient growth of The Indian Financial sector.</p>
+  </div>
+</div>
+
+<br><br><br>
+
+<!-- <div class="carousel" align=center>
+    <div class="carousel-inner">
+        <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
+        <div class="carousel-item">
+            <img src="{{url_for('static', filename='images/rbi.jpg')}}">
+        </div>
+        <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
+        <div class="carousel-item">
+            <img src="{{url_for('static', filename='images/rsz_arc.png')}}">
+        </div>
+        <input class="carousel-open" type="radio" id="carousel-3" name="carousel" aria-hidden="true" hidden="">
+        <div class="carousel-item">
+            <img src="{{url_for('static', filename='images/feature.png')}}">
+        </div>
+        <label for="carousel-3" class="carousel-control prev control-1">‹</label>
+        <label for="carousel-2" class="carousel-control next control-1">›</label>
+        <label for="carousel-1" class="carousel-control prev control-2">‹</label>
+        <label for="carousel-3" class="carousel-control next control-2">›</label>
+        <label for="carousel-2" class="carousel-control prev control-3">‹</label>
+        <label for="carousel-1" class="carousel-control next control-3">›</label>
+        <ol class="carousel-indicators">
+            <li>
+                <label for="carousel-1" class="carousel-bullet">•</label>
+            </li>
+            <li>
+                <label for="carousel-2" class="carousel-bullet">•</label>
+            </li>
+            <li>
+                <label for="carousel-3" class="carousel-bullet">•</label>
+            </li>
+        </ol>
+    </div>
+</div> -->
+
+
+
+<br><br><br><br>
+<div class="container">
+  <div class="jumbotron">
+    <h2 align=left style="color:#FFA500;">Objective of The Project</h1>
+    <p align=left>• The proposed system is aimed at reducing risks of losses to banks due to
+bad loans.<br>
+• It is based on the analysis of various attributes extracted from
+the previous loan records.<br>
+• The system would make use of an ensemble of machine learning algorithms<br>
+• Deploy the model for use with new customer data in a reliable manner<br>
+• It will help improve the financial health of the banking sector<br>
+• The project will help automate the loan approval system and thus processing loans in a more transparent manner</p>
+  </div>
+</div>
+
+<br><br><br><br>
+<h2 style="color:#FFA500;"><b>Data Visualization</h2>
+
+<div class="row" style="color=black;">
+  <div class="column" style="background-color:#aaa;">
+    <h2>Gender</h2>
+<img src="{{url_for('static', filename='images/genderCount.png')}}" width='500' class="img-responsive" alt="Cinque Terre">
+
+    <p><!--Can insert text here--></p>
+  </div>
+  <div class="column" style="background-color:#bbb;">
+    <h2>Property Area</h2>
+    <img src="{{url_for('static', filename='images/prop.png')}}" class="img-responsive" alt="Cinque Terre">
+    <p></p>
+  </div>
+  <div class="column" style="background-color:#ccc;">
+    <h2>Education</h2>
+    <img src="{{url_for('static', filename='images/education1.png')}}" width='450' class="img-responsive" alt="Cinque Terre">
+    <p></p>
+  </div>
+</div>
+
+<br><br><br><br>
+<div class="row">
+  <div class="column" style="background-color:#aaa;">
+    <h2>Depandant Count</h2>
+    <img src="{{url_for('static', filename='images/dependantCount.png')}}" width='250' class="img-responsive" alt="Cinque Terre">
+    <p></p>
+  </div>
+  <div class="column" style="background-color:#bbb;">
+    <h2>Marital Status</h2>
+    <img src="{{url_for('static', filename='images/Married.png')}}" class="img-responsive" alt="Cinque Terre">
+    <p></p>
+  </div>
+  <div class="column" style="background-color:#ccc;">
+    <h2>Credit History</h2>
+    <img src="{{url_for('static', filename='images/creditHistory.png')}}" class="img-responsive" alt="Cinque Terre">
+    <p></p>
+  </div>
+</div>
+
+<br><br><br><br>
+
+<h2 style="color:#FFA500;font-size:30px;">Loan Processing System</h2>
+<div align=center style="background-image:{{url_for('static', filename='images/8.jpg')}};">
+
+    <form action="{{ url_for('predict')}}"method="post" style="font-size:20px;">
+        
+        <label for="Gender">Gender</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Gender" name="Gender">
+        <option value="-1"></option>  
+          <option value="0">Male</option> 
+          <option value="1">Female</option> 
+        </select> 
+        <br> 
+        
+        <label for="Marital Status">Marital Status</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Marital Status" name="Marital Status"> 
+        <option value="0"></option>  
+          <option value="0">Unmarried</option> 
+          <option value="1">Married</option> 
+        </select> 
+        <br> 
+        
+        <label for="Dependents">Dependents</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Dependents" name="Dependents"> 
+        <option value="-1"></option>  
+          <option value="0">0</option> 
+          <option value="1">1</option> 
+          <option value="2">2</option> 
+          <option value="3">3 and above</option> 
+        </select> 
+        <br> 
+        
+        <label for="Education">Education</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Education" name="Education"> 
+        <option value="-1"></option>  
+          <option value="0">Non Graduate</option> 
+          <option value="1">Graduate</option>  
+        </select> 
+        <br> 
+        
+         <label for="Self_Employed">Self_Employed</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Self_Employed" name="Self_Employed"> 
+        <option value="-1"></option>  
+          <option value="0">No,Working in a company</option> 
+          <option value="1">Yes, have own business</option>  
+        </select> 
+        <br> 
+        
+         <label for="Applicant_Income">Applicant_Income</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Applicant_Income" name="Applicant_Income"> 
+        <option value="-2"></option>  
+          <option value="-1">0-5,000 $</option> 
+          <option value="0">5,000-10,000 $</option> 
+          <option value="1">10,000 $ and above</option>  
+        </select> 
+        <br> 
+      
+         <label for="Coapplicant_Income">Coapplicant_Income</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Coapplicant_Income" name="Coapplicant_Income"> 
+        <option value="-1"></option>  
+          <option value="0">0-3,000 $</option> 
+          <option value="1">3,000-5,000 $</option> 
+          <option value="2">5,000 $ and above</option>  
+        </select>
+        <br>  
+      
+         <label for="Loan_Amount"><span>Loan_Amount</span>
+        <strong><abbr title="required"></abbr></strong></label>
+        <select id="Loan_Amount" name="Loan_Amount"> 
+        <option value="-1"></option>  
+          <option value="0">0-100 $</option> 
+          <option value="1">100-250 $</option> 
+          <option value="2">250 $ and above</option>  
+        </select> 
+        <br> 
+        
+        <label for="Loan_AmountTerm">
+        <span>Loan_AmountTerm</span>
+        <strong><abbr title="required"></abbr></strong></label> 
+        <select id="Loan_AmountTerm" name="Loan_AmountTerm"> 
+        <option value="-1"></option>  
+          <option value="0">Less than a year $</option> 
+          <option value="1">1-2 years</option> 
+          <option value="2">2 years and above</option>  
+        </select> 
+        <br> 
+        
+         <label for="PropertyArea">
+         <span>PropertyArea </span>
+        <strong><abbr title="required"></abbr></strong>
+        </label> 
+        <select id="PropertyArea" name="PropertyArea"> 
+        <option value="-1"></option>  
+          <option value="0">Rural</option> 
+          <option value="1">Semi-Urban</option> 
+          <option value="2">Urban</option>  
+        </select> 
+        <br><br>
+        
+        <button type="submit" style="background-color: #4CAF50;border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block;font-size: 16px;">Predict</button>
+        
+   <br>
+   <br>
+  <h4 style="color:#FFA500;"> {{ prediction_text }}</h4>
+   
+    </form>
+</div>
+
+<br><br><br>
+
+<div class="container">
+  <div class="jumbotron">
+    <h2 align=left style="color:#FFA500;">Conclusions</h1>
+    <p align=left>• Thus, we have automated the process of loan sanctioning by studying past data<br>
+• With the use of machine learning algorithms, we trained our model to successfully predict loan status.<br>
+• The automated system will help to process the loans in a quicker and fair manner<br>
+• We can further improve the system by storing the customer details securely in database for contacting them<br>
+• Additionally, we can also predict the range of amount, the loan can be given to a particular customer</p>
+  </div>
+</div>
+
+<br><br><br><br><br><br>
+</body>
+</html>
